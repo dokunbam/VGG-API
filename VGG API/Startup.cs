@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using BusinessLayer;
 using VGG_API.EntityClass;
+using VGG_API.BusinessLayer;
 
 namespace VGG_API
 {
@@ -76,17 +77,21 @@ namespace VGG_API
             //Injections
             services.AddScoped<UserClass>();
             services.AddScoped<UserEntity>();
-
+            services.AddScoped<AppSettings>();
+            services.AddScoped<ProjectClass>();
+            services.AddScoped<ProjectEntity>();
+            services.AddScoped<ActionClass>();
+            services.AddScoped<ActionEntity>();
             //services.AddScoped<SignInManager>();
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "VGG API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "VGG API Challenge", Version = "v1" });
 
                 c.AddSecurityDefinition("Bearer",
                     new OpenApiSecurityScheme 
                     {
-                        Description = "Please enter into field the word 'Bearer' following by space and Token",
+                        Description = "Enter into field the word 'Bearer' following by space and Token",
                         Name = "Authorization",
                         In = ParameterLocation.Header,
                         Type = SecuritySchemeType.ApiKey,

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,11 +11,14 @@ namespace VGG_API.Entities
     {
         public int Id { get; set; }
         [Required]
-        public int Project_Id { get; set; }
+        [ForeignKey("Project")]
+        public int ProjectId { get; set; }
         [Required]
         public string Description { get; set; }
         [Required]
         public string Note { get; set; }
-
+        public string CreatedAt { get; set; }
+        public string UpdatedAt { get; set; }
+        public Project Project { get; set; }
     }
 }

@@ -4,18 +4,14 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace VGG_API.Entities
+namespace VGG_API.Dtos
 {
-    public class Project
+    public class ProjectRequest
     {
-        public int Id { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
         public string Description { get; set; }
         public bool Completed { get; set; }
-        public string DateCreated { get; set; }
-        public string DateUpdated { get; set; }
-        public string Flag { get; set; }
     }
 }

@@ -17,6 +17,7 @@ namespace BusinessLayer
     {
         private readonly UserEntity userEntity;
         private UserResponseData userResponseData;
+        private LoginResponseData loginResponseData;
         public UserClass(UserEntity _userEntity)
         {
             userEntity = _userEntity;
@@ -33,6 +34,7 @@ namespace BusinessLayer
                     userResponseData = new UserResponseData
                     {
                         Message = RegisterResult.Message
+
                     };
                    return userResponseData;
                 }
@@ -53,10 +55,33 @@ namespace BusinessLayer
             catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
             
         }
 
-    }
+        public async Task<LoginResponseData> Login(LoginModel Login)
+        {
+            var isLogin = await userEntity.IsUserLoggedin(Login);
+
+            if(isLogin == null) 
+            {
+                loginResponseData = new LoginResponseData
+                {
+                    Message = "Username or password incorrect"
+                };
+                return loginResponseData;
+            }
+            else
+            {
+                loginResponseData = new LoginResponseData
+                {
+                    Token = isLogin,
+                    Message = "Successfully Login"
+                };
+                return loginResponseData;
+            }
+        }
+
+        }
 }

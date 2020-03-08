@@ -19,11 +19,12 @@ namespace VGG_API.Controllers
         private UserManager<User> userManager;
         //private SignInManager<User> signInManager;
         private UserResponse userResponse;
+        private LoginResponse loginResponse;
 
         public UserController(UserManager<User> _userManager, UserClass _userClass)
         {
             userManager = _userManager;
-           // signInManager = _signInManager;
+            // signInManager = _signInManager;
             userClass = _userClass;
         }
 
@@ -31,15 +32,16 @@ namespace VGG_API.Controllers
         [Route("create")]
         public async Task<ActionResult<UserResponse>> CreateUser(UserModel User)
         {
-            var result =  await userClass.Register(User);
+            var result = await userClass.Register(User);
             try
             {
-                if(result.UserName == null) 
+                if (result.UserName == null)
                 {
                     userResponse = new UserResponse
                     {
                         StatusCode = 400,
-                        Message = result.Message
+                        Message = result.Message,
+                        //ResponseData = result.ResponseData
                     };
 
                     return userResponse;
@@ -60,6 +62,36 @@ namespace VGG_API.Controllers
             {
 
                 throw;
+            }
+        }
+
+
+        [HttpPost]
+        [Route("login")]
+        public async Task<ActionResult<LoginResponse>> LoginUser(LoginModel Login)
+        {
+            var result = await userClass.Login(Login);
+
+            if (result.Token == null)
+            {
+                loginResponse = new LoginResponse
+                {
+                    StatusCode = 400,
+                    Message = result.Message,
+                    ResponseData = result
+                };
+
+                return loginResponse;
+            }
+            else
+            {
+                loginResponse = new LoginResponse
+                {
+                    StatusCode = 200,
+                    Message = result.Message,
+                    ResponseData = result
+                };
+                return loginResponse;
             }
         }
     }
